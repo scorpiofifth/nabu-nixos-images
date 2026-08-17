@@ -8,7 +8,7 @@ export PATH="$binPath:$PATH"
 export HOME="$TMPDIR"
 export NIX_STATE_DIR="$TMPDIR/state"
 
-diskSize="5G"
+diskSize="10G"
 diskImage="$TMPDIR/rootfs.img"
 mountPoint="$TMPDIR/mnt"
 
