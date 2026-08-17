@@ -1,0 +1,53 @@
+#!/sbin/sh
+
+# TWRP on nabu exposes extra shell utilities; see the full list here:
+# https://github.com/ArKT-7/twrp_device_xiaomi_nabu/blob/mod-linux/recovery/root/ramdisk-files-arkt.txt
+
+set -eu
+
+OUTFD=$2
+ZIPFILE=$3
+TMPDIR="/tmp/install"
+
+ui_print() {
+        echo "ui_print $1" >"/proc/self/fd/$OUTFD"
+}
+ui_print_abort() {
+        ui_print "$1"
+        exit 1
+}
+
+if [ ! -e /dev/block/by-name/linux ]; then
+        ui_print_abort "Linux partition not found"
+fi
+if [ ! -e /dev/block/by-name/esp ]; then
+        ui_print_abort "ESP partition not found"
+fi
+
+rm -rf "$TMPDIR"
+mkdir -p "$TMPDIR"
+cd "$TMPDIR"
+
+# Phase 1: deploy the static binaries from the ZIP into a temp dir.
+ui_print "Deploying binary files..."
+unzip -o "$ZIPFILE" "bin/*" -d "$TMPDIR"
+chmod -R 0777 "$TMPDIR/bin"
+
+# Phase 2: format the linux partition and stream the rootfs image into it.
+ui_print "Formatting and flashing rootfs image"
+umount -lf /dev/block/by-name/linux 2>/dev/null || true
+blockdev --setrw /dev/block/by-name/linux
+mkfs.ext4 -F /dev/block/by-name/linux
+"$TMPDIR/bin/7z" e -so "$ZIPFILE" "image/rootfs.img" >/dev/block/by-name/linux
+umount -lf /dev/block/by-name/linux 2>/dev/null || true
+ui_print "Done flashing rootfs image!"
+
+# Phase 3: replace the EFI boot files on the esp partition.
+ui_print "Set up bootloader configuration"
+umount -lf /dev/block/by-name/esp 2>/dev/null || true
+mkdir -p "$TMPDIR/esp"
+mount /dev/block/by-name/esp "$TMPDIR/esp"
+rm -rf "$TMPDIR/esp/EFI"
+unzip -o "$ZIPFILE" "EFI/*" -d "$TMPDIR/esp"
+umount -lf /dev/block/by-name/esp 2>/dev/null || true
+ui_print "Boot configuration setup completed!"

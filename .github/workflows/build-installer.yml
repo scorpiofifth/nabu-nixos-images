@@ -1,0 +1,45 @@
+name: Build Installer
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup Nix
+        uses: cachix/install-nix-action@v31
+      - name: Setup Cachix cache
+        uses: cachix/cachix-action@v17
+        with:
+          name: nixpkgs-for-nabu
+      - name: Setup
+        run: |
+          chmod o+rx /home/runner
+          mkdir ./installer/EFI/nixos ./installer/image
+          echo >>"$GITHUB_ENV" \
+            "COMMIT_ID=$(echo ${{ github.sha }} | cut -c -7)"
+      - name: Build the image
+        run: |
+          nix develop -L -c bash ./build.sh
+          mv ./outputs/out/rootfs.img ./installer/image
+      - name: Build the UKI
+        run: |
+          nix build .
+          cp ./result/nixos.efi ./installer/EFI/nixos
+      # - name: Upload to artifact
+      #   uses: actions/upload-artifact@v7
+      #   with:
+      #     name: installer-${{ env.COMMIT_ID }}
+      #     path: installer
+      - name: Compress installer
+        run: |
+          cd ./installer && \
+            zip -r ../installer-${{ env.COMMIT_ID }}.zip .
+      # WARN: make sure the settings:
+      # Actions -> General -> Workflow permissions
+      # -> Read and write permissions
+      - name: Upload to release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: installer
+          files: installer-${{ env.COMMIT_ID }}.zip

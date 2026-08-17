@@ -1,0 +1,49 @@
+{
+  "nodes": {
+    "nabu": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1786966441,
+        "narHash": "sha256-SczlRfxnnezQF9mYEmAfSXduVO4GN7bj9cKM+XLtwLw=",
+        "owner": "scorpiofifth",
+        "repo": "xiaomi-nabu-flake",
+        "rev": "31d30170a9f4a8f40f01abc42f7101e041ec1286",
+        "type": "github"
+      },
+      "original": {
+        "owner": "scorpiofifth",
+        "repo": "xiaomi-nabu-flake",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1786599213,
+        "narHash": "sha256-yNJd40f11EzXBjSByCB7IPpeFFAdeoSKKM67dGkfFoU=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "0e251e24a4f24e036a084b6b4b2d2491af4167f4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nabu": "nabu",
+        "nixpkgs": [
+          "nabu",
+          "nixpkgs"
+        ]
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
