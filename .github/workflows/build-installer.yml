@@ -34,7 +34,7 @@ jobs:
       - name: Compress installer
         run: |
           cd ./installer && \
-            zip -r ../installer-${{ env.COMMIT_ID }}.zip .
+            zip -s 1500M -r ../installer-${{ env.COMMIT_ID }}.zip .
       # WARN: make sure the settings:
       # Actions -> General -> Workflow permissions
       # -> Read and write permissions
@@ -42,4 +42,4 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           tag_name: installer
-          files: installer-${{ env.COMMIT_ID }}.zip
+          files: installer-${{ env.COMMIT_ID }}.z*
