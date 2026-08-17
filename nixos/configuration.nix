@@ -30,16 +30,20 @@
     wheelNeedsPassword = false;
   };
 
-  services.openssh = {
-    enable = true;
-    settings.PermitRootLogin = "yes";
-  };
-
   networking = {
     networkmanager.enable = true;
     wlanInterfaces.wld0 = {
       device = "wld0";
       mac = "6e:69:78:6f:73:21";
     };
+  };
+
+  services = {
+    openssh = {
+      enable = true;
+      settings.PermitRootLogin = "yes";
+    };
+    desktopManager.plasma6.enable = true;
+    displayManager.plasma-login-manager.enable = true;
   };
 }
