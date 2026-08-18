@@ -1,13 +1,50 @@
 # Nabu NixOS Images
 
+NixOS on Xiaomi Pad 5 (nabu).
+
+![KDE Plasma Desktop on NixOS](./PREVIEW.png)
+
+## Installation
+
 > [!NOTE]
-> It is better to run `sudo nixos-rebuild boot` instead of `switch`,
-> because the latter will broken some services for some reason.
-> And you should also build the UKI file and copy it to ESP,
-> since this make the system take effects.
+> If you mess up the partitions, reflash the original system first.
+> See <https://pocketblue.github.io/devices/xiaomi-nabu/#uninstall-fedora-and-get-stock-rom-back>
+
+Requirements:
+
+- TWRP: <https://github.com/ArKT-7/twrp_device_xiaomi_nabu/releases/tag/mod_linux>
+- Installer: <https://github.com/scorpiofifth/nabu-nixos-images/releases/tag/installer>
+- DualBoot UEFI: <https://github.com/rodriguezst/nabu-dualboot-img/releases>
+
+Steps:
+
+1. Reboot into bootloader and run `fastboot boot <twrp>`.
+2. In TWRP, open the shell and run the `partition` command.
+3. Reboot into bootloader and run the setup command again.
+4. Flash the `Installer`.
+5. Flash `DualBoot UEFI`.
+
+See <https://github.com/pocketblue/dualboot/blob/main/docs/xiaomi-nabu.md> for more details.
+
+## After installation
+
+For the default image configuration, see the `flake.nix` and `nixos/` directory in this repo.
+For basic hardware configuration, also see <https://github.com/scorpiofifth/xiaomi-nabu-flake/>, which is important if you want to rebuild your own NixOS.
+
+You should generate `hardware-configuration.nix` by running `nixos-generate-config`, which uses UUIDs instead of partition labels.
+
+> [!NOTE]
+> Prefer `sudo nixos-rebuild boot` over `switch`, since the latter may break some services.
+> You also need to build the UKI file and copy it to the ESP for the changes to take effect:
 >
 > ```bash
-> # like this
-> nix build ~/NixOS#nixosConfigurations.XiaomiNabu.config.system.build.uki --impure
+> nix build ~/NixOS#nixosConfigurations.XiaomiNabu.config.system.build.uki
 > sudo cp result/nixos.efi /boot/EFI/nixos
 > ```
+
+## Acknowledgements
+
+This project was mostly inspired by <https://github.com/Kumar-Jy>.
+Most of the foundational files come from <https://github.com/rodriguezst>.
+Thanks to all the contributors of packages such as the kernel, firmware, and audio configuration.
+
