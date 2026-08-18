@@ -1,5 +1,9 @@
 # Nabu NixOS Images
 
+> [!NOTE]
+> I spent all my holidays porting this system and no longer have the time to maintain it well, since I have other important things to do.
+> If you are interested in this project, feel free to use it as a template.
+
 NixOS on Xiaomi Pad 5 (nabu).
 
 ![KDE Plasma Desktop on NixOS](./PREVIEW.png)
@@ -42,9 +46,18 @@ You should generate `hardware-configuration.nix` by running `nixos-generate-conf
 > sudo cp result/nixos.efi /boot/EFI/nixos
 > ```
 
+## Known issues
+
+This project aims to match Kumar-Jy's Arch Linux ARM image, but the following are not yet complete:
+
+- Battery is detected but cannot be charged.
+- Bluetooth sometimes doesn't work when rebooting.
+- Low desktop performance (possibly caused by NixOS itself).
+
+Pull requests are welcome!
+
 ## Acknowledgements
 
 This project was mostly inspired by <https://github.com/Kumar-Jy>.
 Most of the foundational files come from <https://github.com/rodriguezst>.
 Thanks to all the contributors of packages such as the kernel, firmware, and audio configuration.
-
