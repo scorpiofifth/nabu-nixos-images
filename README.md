@@ -1,8 +1,7 @@
 # Nabu NixOS Images
 
 > [!NOTE]
-> I spent all my holidays porting this system and no longer have the time to maintain it well, since I have other important things to do.
-> If you are interested in this project, feel free to use it as a template.
+> This project is **not** actively maintained. Feel free to use it as a template.
 
 NixOS on Xiaomi Pad 5 (nabu).
 
@@ -11,7 +10,7 @@ NixOS on Xiaomi Pad 5 (nabu).
 ## Installation
 
 > [!NOTE]
-> If you mess up the partitions, reflash the original system first.
+> If the partitions are corrupted, reflash the original system first.
 > See <https://pocketblue.github.io/devices/xiaomi-nabu/#uninstall-fedora-and-get-stock-rom-back>
 
 Requirements:
@@ -31,9 +30,6 @@ Steps:
 See <https://github.com/pocketblue/dualboot/blob/main/docs/xiaomi-nabu.md> for more details.
 
 ## After installation
-
-For the default image configuration, see the `flake.nix` and `nixos/` directory in this repo.
-For basic hardware configuration, also see <https://github.com/scorpiofifth/xiaomi-nabu-flake/>, which is important if you want to rebuild your own NixOS.
 
 You should generate `hardware-configuration.nix` by running `nixos-generate-config`, which uses UUIDs instead of partition labels.
 
@@ -58,7 +54,7 @@ Pull requests are welcome!
 
 ## Helpful Information
 
-### Get the full zip file
+### Reassemble the Split Image
 
 Due to GitHub's 2 GB release file size limit, the built image is split into multiple parts. Here is how to reassemble it:
 
@@ -69,8 +65,20 @@ Due to GitHub's 2 GB release file size limit, the built image is split into mult
 > [!NOTE]
 > Verify the result with `7z t output.zip`.
 
+### Build Your Own Image
+
+Use the template feature on GitHub to create your own repo. Go to the repo's **Settings** > **Actions** > **Workflow permissions**, and set it to "Read and write permissions".
+
+Then go to the **Actions** page and trigger the workflow manually.
+
+After a while, the result will appear on the **Releases** page. To further customize this repo, adjust the files in `nixos/`.
+
+> [!NOTE]
+> For the default image configuration, see the `flake.nix` and `nixos/` directory in this repo.
+> For basic hardware configuration, also see <https://github.com/scorpiofifth/xiaomi-nabu-flake/>, which is important if you want to rebuild your own NixOS.
+
 ## Acknowledgements
 
-This project was mostly inspired by <https://github.com/Kumar-Jy>.
-Most of the foundational files come from <https://github.com/rodriguezst>.
-Thanks to all the contributors of packages such as the kernel, firmware, and audio configuration.
+- This project was mostly inspired by <https://github.com/Kumar-Jy>.
+- Most of the foundational files come from <https://github.com/rodriguezst>.
+- Thanks to all the contributors of packages such as the kernel, firmware, and audio configuration.
