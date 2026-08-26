@@ -56,6 +56,19 @@ This project aims to match Kumar-Jy's Arch Linux ARM image, but the following ar
 
 Pull requests are welcome!
 
+## Helpful Information
+
+### Get the full zip file
+
+Due to GitHub's 2 GB release file size limit, the built image is split into multiple parts. Here is how to reassemble it:
+
+1. Download all `zip.**` files from the release.
+2. Place all parts into an empty folder.
+3. Run `cat *.zip.* > output.zip` to merge them into one zip.
+
+> [!NOTE]
+> Verify the result with `7z t output.zip`.
+
 ## Acknowledgements
 
 This project was mostly inspired by <https://github.com/Kumar-Jy>.
